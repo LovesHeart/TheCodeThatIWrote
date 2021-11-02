@@ -11,6 +11,38 @@
       <el-row :gutter="20">
         <el-col :span="14"
           ><div class="grid-content bg-purple">
+            <el-form-item class="form_title" label="">
+              <el-select
+                v-model="valueO2"
+                @change="change($event)"
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="item in options2"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+              <el-button v-show="elb">{{ elbContent }}</el-button>
+            </el-form-item>
+          </div></el-col
+        >
+        <el-col :span="10"
+          ><div class="grid-content bg-purple">
+            <el-form-item class="form_title" label="">
+              <el-button>案件理算</el-button>
+              <el-button>案件审核</el-button>
+              <el-button>主任审核</el-button>
+              <el-button>案件支付</el-button>
+            </el-form-item>
+          </div></el-col
+        >
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="14"
+          ><div class="grid-content bg-purple">
             <el-form-item class="form_title" label="报案编号">
               <el-input
                 v-model="formEditData.name"
@@ -178,31 +210,28 @@
         <el-col :span="10"
           ><div class="grid-content bg-purple">
             <el-form-item class="form_title" label="是否伤人">
-              <el-input
-                v-model="formEditData.username"
-                auto-complete="off"
-                style="width: 60%"
-              />
+  <el-radio v-model="radio" label="1">是</el-radio>
+  <el-radio v-model="radio" label="2">否</el-radio>
             </el-form-item></div
         ></el-col>
       </el-row>
 
-
-
-            <el-row :gutter="20">
+      <el-row :gutter="20">
         <el-col :span="14"
           ><div class="grid-content bg-purple">
-       <el-form-item class="form_title" label="事故照片">
-        <el-button>添加事故照片</el-button>
-        <el-button>查看事故照片</el-button>
-      </el-form-item></div
-        ></el-col>
+            <el-form-item class="form_title" label="事故照片">
+              <el-button>添加事故照片</el-button>
+              <el-button>查看事故照片</el-button>
+            </el-form-item>
+          </div></el-col
+        >
         <el-col :span="10"
           ><div class="grid-content bg-purple">
             <el-form-item class="form_title" label="流程信息">
-               <el-button>提交</el-button>
-            </el-form-item></div
-        ></el-col>
+              <el-button>提交</el-button>
+            </el-form-item>
+          </div></el-col
+        >
       </el-row>
       <el-form-item class="form_title" label="备注">
         <el-input
@@ -221,7 +250,9 @@
 
 <script>
 import { caseList } from "@/api/carcase";
+import line from "../charts/line.vue";
 export default {
+  components: { line },
   data() {
     return {
       tableData: [],
@@ -253,10 +284,52 @@ export default {
         },
       ],
       value: "",
+      valueO2: "",
+      options2: [
+        {
+          value: "选项1",
+          label: "立案信息",
+        },
+        {
+          value: "选项2",
+          label: "简易案件",
+        },
+        {
+          value: "选项3",
+          label: "车损确认",
+        },
+        {
+          value: "选项4",
+          label: "非车损确认",
+        },
+        {
+          value: "选项5",
+          label: "简易人伤处理",
+        },
+        {
+          value: "选项6",
+          label: "人伤处理",
+        },
+      ],
+      radio:'',
+      elb: false,
+      elbContent: "",
     };
   },
   methods: {
     // 启用开关
+    change(e) {
+      console.log(e);
+      this.elb = true;
+      //this.elbContent=l.label
+      for (let i in this.options2) {
+        // console.log(i)
+        if (this.options2[i].value === e) {
+          this.elbContent = this.options2[i].label;
+          break;
+        }
+      }
+    },
     statusChangeStatus(id, value) {
       let that = this;
       let data = {
