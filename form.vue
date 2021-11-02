@@ -25,11 +25,16 @@
                 >
                 </el-option>
               </el-select>
-              <el-button v-for="item in list" :key=item v-show="elb">{{ item }}</el-button>
-              <el-button type="primary" icon="el-icon-delete" @click="ddelete"></el-button>
-            </el-form-item>
-          </div></el-col
-        >
+              <el-button v-for="item in list" :key="item" v-show="elb">{{
+                item
+              }}</el-button>
+              <el-button
+                type="primary"
+                icon="el-icon-delete"
+                @click="ddelete"
+              ></el-button>
+            </el-form-item></div
+        ></el-col>
         <el-col :span="10"
           ><div class="grid-content bg-purple">
             <el-form-item class="form_title" label="">
@@ -223,8 +228,31 @@
             <el-form-item class="form_title" label="流程信息">
               <el-button @click="dialogFormVisible = true">提交</el-button>
             </el-form-item>
-          </div></el-col
-        >
+          </div>
+
+          <div class="block" v-show="dialogFormVisible2">
+            <el-timeline>
+              <el-timeline-item timestamp="2018/4/12" placement="top">
+                <el-card>
+                  <h4>更新 Github 模板</h4>
+                  <p>王小虎 提交于 2018/4/12 20:46</p>
+                </el-card>
+              </el-timeline-item>
+              <el-timeline-item timestamp="2018/4/3" placement="top">
+                <el-card>
+                  <h4>更新 Github 模板</h4>
+                  <p>王小虎 提交于 2018/4/3 20:46</p>
+                </el-card>
+              </el-timeline-item>
+              <el-timeline-item timestamp="2018/4/2" placement="top">
+                <el-card>
+                  <h4>更新 Github 模板</h4>
+                  <p>王小虎 提交于 2018/4/2 20:46</p>
+                </el-card>
+              </el-timeline-item>
+            </el-timeline>
+          </div>
+        </el-col>
       </el-row>
       <el-form-item class="form_title" label="备注">
         <el-input
@@ -239,13 +267,56 @@
         <el-button @click="closeeditUserBox">取消</el-button>
       </el-form-item>
     </el-form>
-      <el-dialog title="统筹表单" :visible.sync="dialogFormVisible"  @closed="handleClose">1233333333333333333333333333333333333333</el-dialog>
 
+    <el-dialog
+      title="统筹表单"
+      :visible.sync="dialogFormVisible"
+      @closed="handleClose"
+      ><el-form
+        ><el-form-item class="form_title" label="提交人">
+          <el-input
+            v-model="formEditData.username"
+            auto-complete="off"
+            style="width: 60%" /></el-form-item
+        ><el-form-item class="form_title" label="提交对象">
+          <el-input
+            v-model="formEditData.username"
+            auto-complete="off"
+            style="width: 60%"
+        /></el-form-item>
+        <el-form-item class="form_title" label="提交时间">
+          <div class="block">
+            <span class="demonstration"></span>
+            <el-date-picker
+              v-model="value3"
+              type="datetime"
+              placeholder="选择日期时间"
+            >
+            </el-date-picker></div
+        ></el-form-item>
+        <el-form-item class="form_title" label="备注">
+          <el-input
+            v-model="formEditData.username"
+            auto-complete="off"
+            style="width: 60%"
+        /></el-form-item>
+        <el-form-item
+          ><el-button
+            type="“primary”"
+            @click="
+              dialogFormVisible = false;
+              dialogFormVisible2 = true;
+            "
+            >提交</el-button
+          ></el-form-item
+        >
+      </el-form></el-dialog
+    >
   </div>
 </template>
 
 <script>
-import { caseList } from "@/api/carcase";//你在不
+import { caseList } from "@/api/carcase"; //你在不
 import line from "../charts/line.vue";
 export default {
   components: { line },
@@ -273,6 +344,7 @@ export default {
       },
       value1: "",
       value2: "",
+      value3: "",
       options: [
         {
           value: "选项1",
@@ -310,8 +382,9 @@ export default {
       radio: "",
       elb: false,
       elbContent: "",
-      dialogFormVisible:false,//'false'为真值
-      list:[],
+      dialogFormVisible: false, //'false'为真值
+      dialogFormVisible2: false, //'false'为真值
+      list: [],
     };
   },
   methods: {
@@ -328,8 +401,8 @@ export default {
         }
       }
     },
-    ddelete(){
-      this.list.splice(this.list.length-1,1)
+    ddelete() {
+      this.list.splice(this.list.length - 1, 1);
     },
     statusChangeStatus(id, value) {
       let that = this;
