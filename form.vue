@@ -25,7 +25,8 @@
                 >
                 </el-option>
               </el-select>
-              <el-button v-show="elb">{{ elbContent }}</el-button>
+              <el-button v-for="item in list" :key=item v-show="elb">{{ item }}</el-button>
+              <el-button type="primary" icon="el-icon-delete" @click="ddelete"></el-button>
             </el-form-item>
           </div></el-col
         >
@@ -180,16 +181,7 @@
               />
             </el-form-item></div
         ></el-col>
-        <el-col :span="10"
-          ><div class="grid-content bg-purple">
-            <el-form-item class="form_title" label="统筹类别">
-              <el-input
-                v-model="formEditData.username"
-                auto-complete="off"
-                style="width: 60%"
-              />
-            </el-form-item></div
-        ></el-col>
+        <el-col :span="10"></el-col>
       </el-row>
 
       <el-row :gutter="20">
@@ -210,10 +202,11 @@
         <el-col :span="10"
           ><div class="grid-content bg-purple">
             <el-form-item class="form_title" label="是否伤人">
-  <el-radio v-model="radio" label="1">是</el-radio>
-  <el-radio v-model="radio" label="2">否</el-radio>
-            </el-form-item></div
-        ></el-col>
+              <el-radio v-model="radio" label="1">是</el-radio>
+              <el-radio v-model="radio" label="2">否</el-radio>
+            </el-form-item>
+          </div></el-col
+        >
       </el-row>
 
       <el-row :gutter="20">
@@ -228,7 +221,7 @@
         <el-col :span="10"
           ><div class="grid-content bg-purple">
             <el-form-item class="form_title" label="流程信息">
-              <el-button>提交</el-button>
+              <el-button @click="dialogFormVisible = true">提交</el-button>
             </el-form-item>
           </div></el-col
         >
@@ -241,15 +234,18 @@
         />
       </el-form-item>
       <el-form-item>
+        <el-button>打印整个页面</el-button>
         <el-button type="primary" @click="saveUserData">保存</el-button>
         <el-button @click="closeeditUserBox">取消</el-button>
       </el-form-item>
     </el-form>
+      <el-dialog title="统筹表单" :visible.sync="dialogFormVisible"  @closed="handleClose">1233333333333333333333333333333333333333</el-dialog>
+
   </div>
 </template>
 
 <script>
-import { caseList } from "@/api/carcase";
+import { caseList } from "@/api/carcase";//你在不
 import line from "../charts/line.vue";
 export default {
   components: { line },
@@ -311,9 +307,11 @@ export default {
           label: "人伤处理",
         },
       ],
-      radio:'',
+      radio: "",
       elb: false,
       elbContent: "",
+      dialogFormVisible:false,//'false'为真值
+      list:[],
     };
   },
   methods: {
@@ -325,10 +323,13 @@ export default {
       for (let i in this.options2) {
         // console.log(i)
         if (this.options2[i].value === e) {
-          this.elbContent = this.options2[i].label;
+          this.list.push(this.options2[i].label);
           break;
         }
       }
+    },
+    ddelete(){
+      this.list.splice(this.list.length-1,1)
     },
     statusChangeStatus(id, value) {
       let that = this;
